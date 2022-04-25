@@ -1,10 +1,28 @@
+import { useEffect, useState } from "react";
+
 const Portfolio = () => {
+
+    let [joke,setJoke]=useState('');
+
+    const loadJoke=()=>{
+        fetch("https://api.chucknorris.io/jokes/random")
+        .then(response=>response.json())
+        .then(data=>{
+            setJoke(data.value);
+            console.log(data);
+        })
+    }
+
+    useEffect(()=>loadJoke(),[]);
+
     return (
         <section>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col">
                     <h1>Portfolio</h1>
+                    <button onClick={loadJoke}>Chouk Maurice ?</button>
+                    <p className="bg-dark text-info">{joke}</p>
                 </div>
             </div>
             <div className="row">

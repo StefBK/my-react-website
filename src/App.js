@@ -21,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={<Contact bidule="Hi Props!!!"/>} />
         </Routes>
       </BrowserRouter>
       <Footer />
