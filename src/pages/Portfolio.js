@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Card from "../components/Card";
+import Pagination from "../components/Pagination";
 
 const Portfolio = () => {
 
@@ -13,10 +15,17 @@ const Portfolio = () => {
             })
     }
 
+    const nextPage = (page) => {
+        setPage(page);
+        console.log(page);
+    }
+
+    let [page, setPage] = useState(1);
+
     let [gallery, setGallery] = useState([]);
 
     const loadPics = () => {
-        fetch("https://picsum.photos/v2/list?page=2&limit=9")
+        fetch("https://picsum.photos/v2/list?page=" + page + "&limit=9")
             .then(response => response.json())
             .then(data => {
                 setGallery(data);
@@ -24,10 +33,13 @@ const Portfolio = () => {
             })
     }
 
-    useEffect(() => {
-        loadJoke();
-        loadPics();
-    }, []);
+    // useEffect(() => {
+    //     loadJoke();
+    //     loadPics();
+    // }, []);
+
+    useEffect(() => loadJoke, []);
+    useEffect(() => loadPics, [page]);
 
     return (
         <section>
@@ -35,32 +47,34 @@ const Portfolio = () => {
                 <div className="row">
                     <div className="col">
                         <h1>Portfolio</h1>
-                        <button onClick={loadJoke}>Chouk Maurice ?</button>
+                        <button className="btn btn-info" onClick={loadJoke}>Chouk Maurice ?</button>
                         <p className="bg-dark text-info">{joke}</p>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col">
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <Pagination page={page} nextPage={nextPage} />
                     </div>
                 </div>
                 <div className="row">
                     {
                         gallery.map((pic) => {
+                            let source = `https://picsum.photos/id/${pic.id}/320/240`;
+                            let title = `Picture by ${pic.author}`;
+                            let id = pic.id;
+                            let width = pic.width;
+                            let height = pic.height;
+                            let dim = { 'width': width, 'height': height }
                             return (
-                                <div key={pic.id} className="col-12 col-md-4">
-                                    <div className="card">
-                                        <img src={pic.download_url} className="img-fluid mb-3 m-md-0 card-img-top" alt={pic.author} />
-                                        <div className="card-body">
-                                            <h5 className="card-title">Card title</h5>
-                                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            <a href="#" className="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <Card key={id} source={source} title={title} dim={dim} />
                             )
                         })
                     }
+                </div>
+                <div className="row">
+                    <div className="col">
+                        <Pagination page={page} nextPage={nextPage} />
+                    </div>
                 </div>
             </div>
         </section >
