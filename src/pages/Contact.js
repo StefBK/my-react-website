@@ -4,7 +4,7 @@ class Contact extends React.Component {
 
     constructor(props){
         super(props);
-        alert('This is a constructor');
+        // alert('This is a constructor');
     }
 
     componentWillMount(){

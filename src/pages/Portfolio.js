@@ -39,7 +39,7 @@ const Portfolio = () => {
     // }, []);
 
     useEffect(() => loadJoke, []);
-    useEffect(() => loadPics, [page]);
+    useEffect(() => loadPics, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <section>
@@ -66,7 +66,7 @@ const Portfolio = () => {
                             let height = pic.height;
                             let dim = { 'width': width, 'height': height }
                             return (
-                                <Card key={id} source={source} title={title} dim={dim} />
+                                <Card key={id} id={id} source={source} title={title} dim={dim} />
                             )
                         })
                     }
